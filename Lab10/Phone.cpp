@@ -36,26 +36,20 @@ void Interface::deserialize(wifstream* file) {
 Phone::Phone(wstring model, wstring firm) {
 	price = -1;
 	this->model = new wstring(model);
-	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
 	this->firm = new wstring(firm);
-	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
 	screenSize[0] = -1;
 	screenSize[1] = -1;
 }
 Phone::Phone(int price, int screenLength, int screenHeight) {
 	model = new wstring(L"none");
-	//wcscpy_s(model, (_msize(this->model) / sizeof(wchar_t)), L"none");
 	firm = new wstring(L"none");
-	//wcscpy_s(firm, (_msize(this->firm) / sizeof(wchar_t)), L"none");
 	this->price = price;
 	screenSize[0] = screenLength;
 	screenSize[1] = screenHeight;
 }
 Phone::Phone(wstring model, wstring firm, int price, int screenLength, int screenHeight) {
 	this->model = new wstring(model);
-	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
 	this->firm = new wstring(firm);
-	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
 	this->price = price;
 	screenSize[0] = screenLength;
 	screenSize[1] = screenHeight;
@@ -63,22 +57,16 @@ Phone::Phone(wstring model, wstring firm, int price, int screenLength, int scree
 Phone::Phone(){
 	price = -1;
 	this->model = new wstring(L"none");
-	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), L"default");
 	screenSize[0] = -1;
 	screenSize[1] = -1;
 	this->firm = new wstring(L"none");
-	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), L"default");
 }
 Phone::Phone(Phone* original) {
 	this->model = new wstring(original->model->data());
 	this->firm = new wstring(original->firm->data());
 	this->price = original->price;
-	//this->model = new string(original->model); TO DO
-	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), original->model);
 	this->screenSize[0] = original->screenSize[0];
 	this->screenSize[1] = original->screenSize[1];
-	//this->firm = new string(original->firm); TO DO
- 	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), original->firm);
 }
 Phone::~Phone() {
 	delete firm;
@@ -97,12 +85,9 @@ void Phone::input() {
 	wstring readFromStream;
 
 	cout << "Введите фирму-производителя телефона: ";
-	//wcin.getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	//firm->assign(integerTest);
 	getline(wcin, readFromStream);
 	firm->assign(readFromStream);
 	cout << "Введите модель телефона: ";
-	//wcin.getline(model, (_msize(model) / sizeof(wchar_t)));
 	getline(wcin, readFromStream);
 	model->assign(readFromStream);
 	_flushall();
@@ -198,9 +183,9 @@ void Phone::serialize() {
 }
 void Phone::deserialize(wifstream* file) {
 	//Метод, отвечающий за десериализацию элемента структуры
-	wchar_t* integerTest = new wchar_t[100];
+	/*wchar_t* integerTest = new wchar_t[100];
 
-	/*file->getline(model, (_msize(model)/sizeof(wchar_t)) );
+	file->getline(model, (_msize(model)/sizeof(wchar_t)) );
 	file->getline(firm, (_msize(firm) / sizeof(wchar_t)) );
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	price = _wtoi(integerTest);
@@ -208,6 +193,7 @@ void Phone::deserialize(wifstream* file) {
 	screenSize[0] = _wtoi(integerTest);
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	screenSize[1] = _wtoi(integerTest);
+	
 	delete integerTest;*/
 }
 wstring* Phone::getFirm() {
@@ -217,7 +203,7 @@ void Phone::setFirm(wstring firm){
 	this->firm->assign(firm);
 }
 
-/*ButtonPhone::ButtonPhone() : Phone() {
+ButtonPhone::ButtonPhone() : Phone() {
 	buttonsNum = -1;
 }
 ButtonPhone::~ButtonPhone() {
@@ -257,7 +243,8 @@ void ButtonPhone::output() {
 	cout << "Количество кнопок у телефона: " << buttonsNum << endl;
 }
 void ButtonPhone::serialize() {
-	wofstream file("Saved Structure.txt", ios_base::app);
+	/*wofstream file("Saved Structure.txt", ios_base::app);
+	
 	file << "#ButtonPhone" << endl;
 	file << model << endl;
 	file << Phone::getFirm() << endl;
@@ -265,11 +252,11 @@ void ButtonPhone::serialize() {
 	file << screenSize[0] << endl;
 	file << screenSize[1] << endl;
 	file << buttonsNum << endl;
-	file.close();
+	file.close();*/
 }
 void ButtonPhone::deserialize(wifstream* file) {
 	//Метод, отвечающий за десериализацию элемента структуры
-	wchar_t* integerTest = new wchar_t[100];
+	/*wchar_t* integerTest = new wchar_t[100];
 	
 	file->getline(model, (_msize(model) / sizeof(wchar_t)));
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
@@ -282,34 +269,40 @@ void ButtonPhone::deserialize(wifstream* file) {
 	screenSize[1] = _wtoi(integerTest);
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	buttonsNum = _wtoi(integerTest);
-	
-	delete integerTest;
+
+	delete integerTest;*/
 }
 
 SensorPhone::SensorPhone() : Phone() {
-	this->OS = new wchar_t[100];
-	wcscpy_s(this->OS, (_msize(this->OS)) / sizeof(wchar_t), L"default");
+	OS = new wstring(L"default");
+	//this->OS = new wchar_t[100];
+	//wcscpy_s(this->OS, (_msize(this->OS)) / sizeof(wchar_t), L"default");
 }
 SensorPhone::~SensorPhone() {
 	delete OS;
 }
-bool SensorPhone::checkSystem(wchar_t testOS[]) {
+bool SensorPhone::checkSystem(wstring testOS) {
 	//Метод принимает на вход название операционной системы и возвращает ответ на вопрос
 	//"Имеет ли телефон данную операционную систему?"
-	return wcscmp(OS, testOS) ? true : false;
+	return OS->compare(testOS) == 0 ? true : false;
 }
 void SensorPhone::input() {
 	//Метод для ручного ввода значений для переменных класса
+	wstring readFromStream;
+
 	Phone::input();
 	cout << "Введите название операционной системы телефона: ";
-	wcin.getline(OS, (_msize(OS) / sizeof(wchar_t)));
+	getline(wcin, readFromStream);
+	OS->assign(readFromStream);
 }
 void SensorPhone::output() {
 	//Метод вывода данных
 	Phone::output();
+	cout << "Операционная система: ";
+	wcout << OS->data() << endl;
 }
 void SensorPhone::serialize() {
-	wofstream file("Saved Structure.txt", ios_base::app);
+	/*wofstream file("Saved Structure.txt", ios_base::app);
 	file << "#SensorPhone" << endl;
 	file << model << endl;
 	file << Phone::getFirm() << endl;
@@ -317,12 +310,12 @@ void SensorPhone::serialize() {
 	file << screenSize[0] << endl;
 	file << screenSize[1] << endl;
 	file << OS << endl;
-	file.close();
+	file.close();*/
 }
 void SensorPhone::deserialize(wifstream* file) {
 	//Метод, отвечающий за десериализацию элемента структуры
-	wchar_t* integerTest = new wchar_t[100];
-
+	/*wchar_t* integerTest = new wchar_t[100];
+	
 	file->getline(model, (_msize(model) / sizeof(wchar_t)));
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	setFirm(integerTest);
@@ -334,16 +327,15 @@ void SensorPhone::deserialize(wifstream* file) {
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	screenSize[1] = _wtoi(integerTest);
 	
-	delete integerTest;
+	delete integerTest;*/
 }
 
 AndroidPhone::AndroidPhone() : SensorPhone(){
-	this->version = new wchar_t[100];
-	wcscpy_s(this->version, _msize(this->version) / sizeof(wchar_t), L"none");
+	version = new wstring(L"none");
 }
-AndroidPhone::AndroidPhone(wchar_t version[] = L"default") : SensorPhone() {
-	this->version = new wchar_t[100];
-	wcscpy_s(this->version, _msize(this->version) / sizeof(wchar_t), version);
+AndroidPhone::AndroidPhone(wstring version = L"default") : SensorPhone() {
+	this->version = new wstring(version);
+
 }
 AndroidPhone::~AndroidPhone() {
 	delete version;
@@ -351,12 +343,14 @@ AndroidPhone::~AndroidPhone() {
 void AndroidPhone::input() {
 	//Метод для ручного ввода значений для переменных класса
 	SensorPhone::input();
+	wstring readFromStream;
 
 	cout << "Введите версию Android: ";
-	wcin.getline(version, _msize(version) / sizeof(wchar_t));
+	getline(wcin, readFromStream);
+	version->assign(readFromStream);
 }
 void AndroidPhone::serialize() {
-	wofstream file("Saved Structure.txt", ios_base::app);
+	/*wofstream file("Saved Structure.txt", ios_base::app);
 	file << "#AndroidPhone" << endl;
 	file << model << endl;
 	file << Phone::getFirm() << endl;
@@ -365,12 +359,12 @@ void AndroidPhone::serialize() {
 	file << screenSize[1] << endl;
 	file << OS << endl;
 	file << version << endl;
-	file.close();
+	file.close();*/
 }
 void AndroidPhone::deserialize(wifstream* file) {
 	//Метод, отвечающий за десериализацию элемента структуры
-	wchar_t* integerTest = new wchar_t[100];
-
+	/*wchar_t* integerTest = new wchar_t[100];
+	
 	file->getline(model, (_msize(model) / sizeof(wchar_t)));
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	setFirm(integerTest);
@@ -382,13 +376,13 @@ void AndroidPhone::deserialize(wifstream* file) {
 	screenSize[0] = _wtoi(integerTest);
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	screenSize[1] = _wtoi(integerTest);
-
-	delete integerTest;
+	
+	delete integerTest;*/
 }
 
 void AndroidPhone::output() {
 	//Метод вывода данных
 	cout << "Версия операционной системы: ";
-	wcout << version << endl;
+	wcout << version->data() << endl;
 	SensorPhone::output();
-}*/
+}

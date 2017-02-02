@@ -95,24 +95,24 @@ int main()
 				break;
 			case 2:
 				cout << endl << "Îáúåêò ButtonPhone: " << endl;
-				/*interfaceElement = new ButtonPhone();
+				interfaceElement = new ButtonPhone();
 				interfaceElement->input();
 				interfaceStructure->push_front(interfaceElement);
-				interfaceElement = NULL;*/
+				interfaceElement = NULL;
 				break;
 			case 3:
 				cout << endl << "Îáúåêò SensorPhone: " << endl;
-				/*interfaceElement = new SensorPhone();
+				interfaceElement = new SensorPhone();
 				interfaceElement->input();
 				interfaceStructure->push_front(interfaceElement);
-				interfaceElement = NULL;*/
+				interfaceElement = NULL;
 				break;
 			case 4:
 				cout << endl << "Îáúåêò AndroidPhone: " << endl;
-				/*interfaceElement = new AndroidPhone();
+				interfaceElement = new AndroidPhone();
 				interfaceElement->input();
 				interfaceStructure->push_front(interfaceElement);
-				interfaceElement = NULL;*/
+				interfaceElement = NULL;
 				break;
 			}
 			break;

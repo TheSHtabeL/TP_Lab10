@@ -47,7 +47,7 @@ private:
 	int getDollarPrice();
 };
 
-/*class ButtonPhone : public Phone {
+class ButtonPhone : public Phone {
 public:
 	ButtonPhone();
 	~ButtonPhone();
@@ -66,26 +66,26 @@ class SensorPhone : public Phone {
 public:
 	SensorPhone();
 	~SensorPhone();
-	bool checkSystem(wchar_t[]);
+	bool checkSystem(wstring);
 	void input();
 	void output();
 	void serialize();
 	void deserialize(std::wifstream*);
 protected:
 	//Операционная система телефона
-	wchar_t* OS;
+	wstring* OS;
 };
 
 class AndroidPhone : public SensorPhone {
 public:
 	//Версия операционной системы телефона
-	wchar_t* version;
+	wstring* version;
 	AndroidPhone();
-	AndroidPhone(wchar_t[]);
+	AndroidPhone(wstring);
 	~AndroidPhone();
 	void input();
 	void output();
 	void serialize();
 	void deserialize(std::wifstream*);
-};*/
+};
 #endif

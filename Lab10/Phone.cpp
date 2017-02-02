@@ -5,7 +5,7 @@
 #include <clocale>
 #include <cstdlib>
 #include <cctype>
-#include <string.h>
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include "Phone.h"
@@ -33,58 +33,60 @@ void Interface::deserialize(wifstream* file) {
 
 }
 
-Phone::Phone(wchar_t model[], wchar_t firm[]) {
+Phone::Phone(wstring model, wstring firm) {
 	price = -1;
-	this->model = new wchar_t[100];
-	wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
-	this->firm = new wchar_t[100];
-	wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
+	this->model = new wstring(model);
+	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
+	this->firm = new wstring(firm);
+	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
 	screenSize[0] = -1;
 	screenSize[1] = -1;
 }
 Phone::Phone(int price, int screenLength, int screenHeight) {
-	model = new wchar_t[100];
-	wcscpy_s(model, (_msize(this->model) / sizeof(wchar_t)), L"none");
-	firm = new wchar_t[100];
-	wcscpy_s(firm, (_msize(this->firm) / sizeof(wchar_t)), L"none");
+	model = new wstring(L"none");
+	//wcscpy_s(model, (_msize(this->model) / sizeof(wchar_t)), L"none");
+	firm = new wstring(L"none");
+	//wcscpy_s(firm, (_msize(this->firm) / sizeof(wchar_t)), L"none");
 	this->price = price;
 	screenSize[0] = screenLength;
 	screenSize[1] = screenHeight;
 }
-Phone::Phone(wchar_t model[], wchar_t firm[], int price, int screenLength, int screenHeight) {
-	this->model = new wchar_t[100];
-	wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
-	this->firm = new wchar_t[100];
-	wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
+Phone::Phone(wstring model, wstring firm, int price, int screenLength, int screenHeight) {
+	this->model = new wstring(model);
+	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), model);
+	this->firm = new wstring(firm);
+	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
 	this->price = price;
 	screenSize[0] = screenLength;
 	screenSize[1] = screenHeight;
 }
 Phone::Phone(){
 	price = -1;
-	this->model = new wchar_t[100];
-	wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), L"default");
+	this->model = new wstring(L"none");
+	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), L"default");
 	screenSize[0] = -1;
 	screenSize[1] = -1;
-	this->firm = new wchar_t[100];
-	wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), L"default");
+	this->firm = new wstring(L"none");
+	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), L"default");
 }
 Phone::Phone(Phone* original) {
+	this->model = new wstring(original->model->data());
+	this->firm = new wstring(original->firm->data());
 	this->price = original->price;
-	this->model = new wchar_t[100];
-	wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), original->model);
+	//this->model = new string(original->model); TO DO
+	//wcscpy_s(this->model, (_msize(this->model) / sizeof(wchar_t)), original->model);
 	this->screenSize[0] = original->screenSize[0];
 	this->screenSize[1] = original->screenSize[1];
-	this->firm = new wchar_t[100];
-	wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), original->firm);
+	//this->firm = new string(original->firm); TO DO
+ 	//wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), original->firm);
 }
 Phone::~Phone() {
 	delete firm;
 	delete model;
 }
-bool Phone::checkFirm(wchar_t firm[]) {
+bool Phone::checkFirm(wstring firm) {
 	//Метод сообщает, был ли выпущен телефон указанным производителем
-	return wcscmp(firm, this->firm) == 0 ? true : false;
+	return this->firm->compare(firm) == 0 ? true : false;
 }
 int Phone::getPrice() {
 	return price;
@@ -92,11 +94,17 @@ int Phone::getPrice() {
 void Phone::input() {
 	//Метод для ручного ввода значений для переменных класса
 	wchar_t* integerTest = new wchar_t[100];
+	wstring readFromStream;
 
 	cout << "Введите фирму-производителя телефона: ";
-	wcin.getline(firm, (_msize(firm) / sizeof(wchar_t)));
+	//wcin.getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
+	//firm->assign(integerTest);
+	getline(wcin, readFromStream);
+	firm->assign(readFromStream);
 	cout << "Введите модель телефона: ";
-	wcin.getline(model, (_msize(model) / sizeof(wchar_t)));
+	//wcin.getline(model, (_msize(model) / sizeof(wchar_t)));
+	getline(wcin, readFromStream);
+	model->assign(readFromStream);
 	_flushall();
 	while (true) {
 		cout << "Введите цену телефона: ";
@@ -154,9 +162,9 @@ void Phone::input() {
 }
 void Phone::output() {
 	cout << "Фирма: ";
-	wcout << firm << endl;
+	wcout << firm->data() << endl;
 	cout << "Модель телефона: ";
-	wcout << model << endl;
+	wcout << model->data() << endl;
 	cout << "Цена: " << endl;
 	cout << price << " в рублях" << endl;
 	cout << getDollarPrice() << " в долларах" << endl;
@@ -179,20 +187,20 @@ int Phone::getDollarPrice() {
 void Phone::serialize() {
 	//Метод отвечает за сериализацию элемента структуры
 	//В файл записываются все данные элемента, а его тип обозначается идентификатором
-	wofstream file("Saved Structure.txt", ios_base::app);
+	/*wofstream file("Saved Structure.txt", ios_base::app);
 	file << "#Phone" << endl; //Идентификатор для упрощения считывания данных из файла
 	file << model << endl;
 	file << firm << endl;
 	file << price << endl;
 	file << screenSize[0] << endl;
 	file << screenSize[1] << endl;
-	file.close();
+	file.close();*/
 }
 void Phone::deserialize(wifstream* file) {
 	//Метод, отвечающий за десериализацию элемента структуры
 	wchar_t* integerTest = new wchar_t[100];
 
-	file->getline(model, (_msize(model)/sizeof(wchar_t)) );
+	/*file->getline(model, (_msize(model)/sizeof(wchar_t)) );
 	file->getline(firm, (_msize(firm) / sizeof(wchar_t)) );
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	price = _wtoi(integerTest);
@@ -200,16 +208,16 @@ void Phone::deserialize(wifstream* file) {
 	screenSize[0] = _wtoi(integerTest);
 	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
 	screenSize[1] = _wtoi(integerTest);
-	delete integerTest;
+	delete integerTest;*/
 }
-wchar_t* Phone::getFirm() {
+wstring* Phone::getFirm() {
 	return firm;
 }
-void Phone::setFirm(wchar_t firm[100]) {
-	wcscpy_s(this->firm, (_msize(this->firm) / sizeof(wchar_t)), firm);
+void Phone::setFirm(wstring firm){
+	this->firm->assign(firm);
 }
 
-ButtonPhone::ButtonPhone() : Phone() {
+/*ButtonPhone::ButtonPhone() : Phone() {
 	buttonsNum = -1;
 }
 ButtonPhone::~ButtonPhone() {
@@ -377,102 +385,10 @@ void AndroidPhone::deserialize(wifstream* file) {
 
 	delete integerTest;
 }
-int AndroidPhone::operator >= (wchar_t ptr[]) {
-	//Перегрузка оператора позволяет сравнить пять первых символов входной строки
-	//и пять последних символов переменной 'version' по весу в алфавите
-	wchar_t* a = new wchar_t[5];
-	wchar_t* b = new wchar_t[5];
-	if (wcslen(version) >= 5 && wcslen(ptr) >= 5) {
-		for (int i = 0; i < 5; i++) {
-			a[i] = version[wcslen(version) - (4 - i)];
-			b[i] = ptr[i];
-		}
-		return (wcscmp(a, b) > 0) ? 0 : 1;
-	}
-	else {
-		//Метод может работать только в случае, если обе строки имеют 5 или более символов
-		return -1;
-	}
-}
-bool AndroidPhone::operator >= (AndroidPhone* b) {
-	//Перегрузка оператора сравнивает две строки из двух объектов одного класса по длине
-	return wcscmp(version, b->version) ? false : true;
-}
-void AndroidPhone::operator |= (wchar_t* a) {
-	//Перегрузка оператора ищет пришедшую на вход подстроку в строке
-	//и удаляет её. В качестве исходной строки используется переменная
-	//класса 'AndroidPhone' - 'version'
-	wchar_t* str = new wchar_t[100];
-	int equalCount = 0;
-	int j = 0;
-	int i = 0;
 
-	for (; version[i] != '\0'; i++) {
-		if (version[i] == a[equalCount]) {
-			equalCount++;
-		}
-		else {
-			for (int count = 0; count <= equalCount; count++) {
-				str[j] = version[i - (equalCount - count)];
-				j++;
-			}
-			equalCount = 0;
-		}
-		if (a[equalCount] == '\0') {
-			equalCount = 0;
-		}
-	}
-	if (equalCount) {
-		//Строка закончилась, но последние её символы были теми же, что и у подстроки.
-		//Без этого условия часть строки будет потеряна
-		for (; equalCount > 0; equalCount--) {
-			str[j] = version[i - equalCount];
-		}
-	}
-	for (int equalCount = 0; equalCount < i; equalCount++) {
-		version[equalCount] = str[equalCount];
-	}
-}
-void AndroidPhone::operator |= (AndroidPhone* a) {
-	//Перегрузка оператора ищет пришедшую на вход подстроку в строке
-	//и удаляет её. В качестве исходной строки используется переменная
-	//класса 'AndroidPhone' - 'version'
-	//В качестве строки-параметра используется переменная 'version'
-	//другого объекта класса 'AnroidPhone'
-	wchar_t* str = new wchar_t[100];
-	int equalCount = 0;
-	int j = 0;
-	int i = 0;
-
-	for (; version[i] != '\0'; i++) {
-		if (version[i] == a->version[equalCount]) {
-			equalCount++;
-		}
-		else {
-			for (int count = 0; count <= equalCount; count++) {
-				str[j] = version[i - (equalCount - count)];
-				j++;
-			}
-			equalCount = 0;
-		}
-		if (a->version[equalCount] == '\0') {
-			equalCount = 0;
-		}
-	}
-	if (equalCount) {
-		//Строка закончилась, но последние её символы были теми же, что и у подстроки.
-		//Без этого условия часть строки будет потеряна
-		for (; equalCount > 0; equalCount--) {
-			str[j] = version[i - equalCount];
-		}
-	}
-	for (int equalCount = 0; equalCount < i; equalCount++) {
-		version[equalCount] = str[equalCount];
-	}
-}
 void AndroidPhone::output() {
 	//Метод вывода данных
 	cout << "Версия операционной системы: ";
 	wcout << version << endl;
 	SensorPhone::output();
-}
+}*/

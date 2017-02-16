@@ -11,8 +11,6 @@ public:
 	Interface();
 	virtual void input();
 	virtual void output();
-	virtual void serialize() = NULL;
-	virtual void deserialize(std::wifstream*) = NULL;
 };
 
 class Phone : public Interface{
@@ -28,17 +26,17 @@ public:
 	Phone();
 	//Копирующий конструктор
 	Phone(Phone*);
+	Phone(Phone const&);
 	//Дескриптор
 	~Phone();
 
 	bool checkFirm(wstring);
 	void input();
 	void output();
-	void serialize();
-	void deserialize(std::wifstream*);
 	void setFirm(wstring);
 	wstring* getFirm();
 	int getPrice();
+	//operator= (Phone, Phone);
 protected:
 	int screenSize[2];
 	double getDiagonal();
@@ -55,8 +53,6 @@ public:
 
 	void input();
 	void output();
-	void serialize();
-	void deserialize(std::wifstream*);
 private:
 	//Количество кнопок у кнопочного телефона
 	int buttonsNum;
@@ -69,8 +65,6 @@ public:
 	bool checkSystem(wstring);
 	void input();
 	void output();
-	void serialize();
-	void deserialize(std::wifstream*);
 protected:
 	//Операционная система телефона
 	wstring* OS;
@@ -85,7 +79,5 @@ public:
 	~AndroidPhone();
 	void input();
 	void output();
-	void serialize();
-	void deserialize(std::wifstream*);
 };
 #endif

@@ -26,12 +26,6 @@ void Interface::output()
 {
 
 }
-void Interface::serialize() {
-
-}
-void Interface::deserialize(wifstream* file) {
-
-}
 
 Phone::Phone(wstring model, wstring firm) {
 	price = -1;
@@ -67,6 +61,13 @@ Phone::Phone(Phone* original) {
 	this->price = original->price;
 	this->screenSize[0] = original->screenSize[0];
 	this->screenSize[1] = original->screenSize[1];
+}
+Phone::Phone(Phone const& original) {	
+	this->firm = new wstring(original.firm->data());
+	this->model = new wstring(original.model->data());
+	this->price = original.price;
+	this->screenSize[0] = original.screenSize[0];
+	this->screenSize[1] = original.screenSize[1];
 }
 Phone::~Phone() {
 	delete firm;
@@ -169,33 +170,6 @@ int Phone::getDollarPrice() {
 	//Метод возвращает цену телефона, конвертированную в доллары
 	return (int)price / dollarCourse;
 }
-void Phone::serialize() {
-	//Метод отвечает за сериализацию элемента структуры
-	//В файл записываются все данные элемента, а его тип обозначается идентификатором
-	/*wofstream file("Saved Structure.txt", ios_base::app);
-	file << "#Phone" << endl; //Идентификатор для упрощения считывания данных из файла
-	file << model << endl;
-	file << firm << endl;
-	file << price << endl;
-	file << screenSize[0] << endl;
-	file << screenSize[1] << endl;
-	file.close();*/
-}
-void Phone::deserialize(wifstream* file) {
-	//Метод, отвечающий за десериализацию элемента структуры
-	/*wchar_t* integerTest = new wchar_t[100];
-
-	file->getline(model, (_msize(model)/sizeof(wchar_t)) );
-	file->getline(firm, (_msize(firm) / sizeof(wchar_t)) );
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	price = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[0] = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[1] = _wtoi(integerTest);
-	
-	delete integerTest;*/
-}
 wstring* Phone::getFirm() {
 	return firm;
 }
@@ -242,36 +216,6 @@ void ButtonPhone::output() {
 	Phone::output();
 	cout << "Количество кнопок у телефона: " << buttonsNum << endl;
 }
-void ButtonPhone::serialize() {
-	/*wofstream file("Saved Structure.txt", ios_base::app);
-	
-	file << "#ButtonPhone" << endl;
-	file << model << endl;
-	file << Phone::getFirm() << endl;
-	file << price << endl;
-	file << screenSize[0] << endl;
-	file << screenSize[1] << endl;
-	file << buttonsNum << endl;
-	file.close();*/
-}
-void ButtonPhone::deserialize(wifstream* file) {
-	//Метод, отвечающий за десериализацию элемента структуры
-	/*wchar_t* integerTest = new wchar_t[100];
-	
-	file->getline(model, (_msize(model) / sizeof(wchar_t)));
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	setFirm(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	price = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[0] = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[1] = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	buttonsNum = _wtoi(integerTest);
-
-	delete integerTest;*/
-}
 
 SensorPhone::SensorPhone() : Phone() {
 	OS = new wstring(L"default");
@@ -301,34 +245,6 @@ void SensorPhone::output() {
 	cout << "Операционная система: ";
 	wcout << OS->data() << endl;
 }
-void SensorPhone::serialize() {
-	/*wofstream file("Saved Structure.txt", ios_base::app);
-	file << "#SensorPhone" << endl;
-	file << model << endl;
-	file << Phone::getFirm() << endl;
-	file << price << endl;
-	file << screenSize[0] << endl;
-	file << screenSize[1] << endl;
-	file << OS << endl;
-	file.close();*/
-}
-void SensorPhone::deserialize(wifstream* file) {
-	//Метод, отвечающий за десериализацию элемента структуры
-	/*wchar_t* integerTest = new wchar_t[100];
-	
-	file->getline(model, (_msize(model) / sizeof(wchar_t)));
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	setFirm(integerTest);
-	file->getline(OS, (_msize(OS) / sizeof(wchar_t)));
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	price = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[0] = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[1] = _wtoi(integerTest);
-	
-	delete integerTest;*/
-}
 
 AndroidPhone::AndroidPhone() : SensorPhone(){
 	version = new wstring(L"none");
@@ -349,37 +265,6 @@ void AndroidPhone::input() {
 	getline(wcin, readFromStream);
 	version->assign(readFromStream);
 }
-void AndroidPhone::serialize() {
-	/*wofstream file("Saved Structure.txt", ios_base::app);
-	file << "#AndroidPhone" << endl;
-	file << model << endl;
-	file << Phone::getFirm() << endl;
-	file << price << endl;
-	file << screenSize[0] << endl;
-	file << screenSize[1] << endl;
-	file << OS << endl;
-	file << version << endl;
-	file.close();*/
-}
-void AndroidPhone::deserialize(wifstream* file) {
-	//Метод, отвечающий за десериализацию элемента структуры
-	/*wchar_t* integerTest = new wchar_t[100];
-	
-	file->getline(model, (_msize(model) / sizeof(wchar_t)));
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	setFirm(integerTest);
-	file->getline(OS, (_msize(OS) / sizeof(wchar_t)));
-	file->getline(version, (_msize(version) / sizeof(wchar_t)));
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	price = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[0] = _wtoi(integerTest);
-	file->getline(integerTest, (_msize(integerTest) / sizeof(wchar_t)));
-	screenSize[1] = _wtoi(integerTest);
-	
-	delete integerTest;*/
-}
-
 void AndroidPhone::output() {
 	//Метод вывода данных
 	cout << "Версия операционной системы: ";

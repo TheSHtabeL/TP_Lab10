@@ -63,12 +63,13 @@ Phone::Phone(Phone* original) {
 	this->screenSize[1] = original->screenSize[1];
 }
 Phone::Phone(Phone const& original) {	
-	this->firm = new wstring(original.firm->data());
 	this->model = new wstring(original.model->data());
+	this->firm = new wstring(original.firm->data());
 	this->price = original.price;
 	this->screenSize[0] = original.screenSize[0];
 	this->screenSize[1] = original.screenSize[1];
 }
+
 Phone::~Phone() {
 	delete firm;
 	delete model;
@@ -79,6 +80,21 @@ bool Phone::checkFirm(wstring firm) {
 }
 int Phone::getPrice() {
 	return price;
+}
+Phone& Phone::operator=(Phone const& original) {
+	if (this == &original) {
+		return *this;
+	}
+	else {
+		delete model;
+		delete firm;
+		this->model = new wstring(original.model->data());
+		this->firm = new wstring(original.firm->data());
+		this->price = original.price;
+		this->screenSize[0] = original.screenSize[0];
+		this->screenSize[1] = original.screenSize[1];
+		return *this;
+	}
 }
 void Phone::input() {
 	//Метод для ручного ввода значений для переменных класса
@@ -180,6 +196,12 @@ void Phone::setFirm(wstring firm){
 ButtonPhone::ButtonPhone() : Phone() {
 	buttonsNum = -1;
 }
+ButtonPhone::ButtonPhone(ButtonPhone* original) : Phone(original) {
+	this->buttonsNum = original->buttonsNum;
+}
+ButtonPhone::ButtonPhone(ButtonPhone const& original) : Phone(original) {
+	this->buttonsNum = original.buttonsNum;
+}
 ButtonPhone::~ButtonPhone() {
 }
 int ButtonPhone::getButtonsNum() {
@@ -216,15 +238,33 @@ void ButtonPhone::output() {
 	Phone::output();
 	cout << "Количество кнопок у телефона: " << buttonsNum << endl;
 }
+ButtonPhone& ButtonPhone::operator=(ButtonPhone const& original) {
+	if (this == &original) {
+		return *this;
+	}
+	else {
+		delete model;
+		this->model = new wstring(original.model->data());
+		this->price = original.price;
+		this->screenSize[0] = original.screenSize[0];
+		this->screenSize[1] = original.screenSize[1];
+		return *this;
+	}
+}
 
 SensorPhone::SensorPhone() : Phone() {
 	OS = new wstring(L"default");
-	//this->OS = new wchar_t[100];
-	//wcscpy_s(this->OS, (_msize(this->OS)) / sizeof(wchar_t), L"default");
+}
+SensorPhone::SensorPhone(SensorPhone* original) : Phone(original) {
+	this->OS = new wstring(original->OS->data());
+}
+SensorPhone::SensorPhone(SensorPhone const& original) : Phone(original){
+	this->OS = new wstring(original.OS->data());
 }
 SensorPhone::~SensorPhone() {
 	delete OS;
 }
+
 bool SensorPhone::checkSystem(wstring testOS) {
 	//Метод принимает на вход название операционной системы и возвращает ответ на вопрос
 	//"Имеет ли телефон данную операционную систему?"
@@ -246,8 +286,29 @@ void SensorPhone::output() {
 	wcout << OS->data() << endl;
 }
 
+SensorPhone& SensorPhone::operator=(SensorPhone const& original) {
+	if (this == &original) {
+		return *this;
+	}
+	else {
+		delete model;
+		delete OS;
+		this->model = new wstring(original.model->data());
+		this->price = original.price;
+		this->screenSize[0] = original.screenSize[0];
+		this->screenSize[1] = original.screenSize[1];
+		this->OS = new wstring(original.OS->data());
+		return *this;
+	}
+}
 AndroidPhone::AndroidPhone() : SensorPhone(){
 	version = new wstring(L"none");
+}
+AndroidPhone::AndroidPhone(AndroidPhone* original) : SensorPhone(original) {
+	this->version = new wstring(original->version->data());
+}
+AndroidPhone::AndroidPhone(AndroidPhone const& original) : SensorPhone(original) {
+	this->version = new wstring(original.version->data());
 }
 AndroidPhone::AndroidPhone(wstring version = L"default") : SensorPhone() {
 	this->version = new wstring(version);
@@ -270,4 +331,21 @@ void AndroidPhone::output() {
 	cout << "Версия операционной системы: ";
 	wcout << version->data() << endl;
 	SensorPhone::output();
+}
+AndroidPhone& AndroidPhone::operator=(AndroidPhone const& original) {
+	if (this == &original) {
+		return *this;
+	}
+	else {
+		delete model;
+		delete OS;
+		delete version;
+		this->model = new wstring(original.model->data());
+		this->price = original.price;
+		this->screenSize[0] = original.screenSize[0];
+		this->screenSize[1] = original.screenSize[1];
+		this->OS = new wstring(original.OS->data());
+		this->version = new wstring(original.version->data());
+		return *this;
+	}
 }

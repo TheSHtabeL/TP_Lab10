@@ -30,13 +30,13 @@ public:
 	//Дескриптор
 	~Phone();
 
+	Phone& operator=(Phone const&);
 	bool checkFirm(wstring);
 	void input();
 	void output();
 	void setFirm(wstring);
 	wstring* getFirm();
 	int getPrice();
-	//operator= (Phone, Phone);
 protected:
 	int screenSize[2];
 	double getDiagonal();
@@ -48,9 +48,12 @@ private:
 class ButtonPhone : public Phone {
 public:
 	ButtonPhone();
+	ButtonPhone(ButtonPhone*);
+	ButtonPhone(ButtonPhone const&);
 	~ButtonPhone();
 	int getButtonsNum();
 
+	ButtonPhone& operator=(ButtonPhone const&);
 	void input();
 	void output();
 private:
@@ -62,6 +65,10 @@ class SensorPhone : public Phone {
 public:
 	SensorPhone();
 	~SensorPhone();
+	SensorPhone(SensorPhone*);
+	SensorPhone(SensorPhone const&);
+	
+	SensorPhone& operator=(SensorPhone const&);
 	bool checkSystem(wstring);
 	void input();
 	void output();
@@ -76,7 +83,11 @@ public:
 	wstring* version;
 	AndroidPhone();
 	AndroidPhone(wstring);
+	AndroidPhone(AndroidPhone*);
+	AndroidPhone(AndroidPhone const&);
 	~AndroidPhone();
+
+	AndroidPhone& operator=(AndroidPhone const&);
 	void input();
 	void output();
 };
